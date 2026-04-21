@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLARIAH-ES — Portal de Recursos CLARIN &amp; DARIAH</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fbf8f3;
+  --bg-alt: #f4efe6;
+  --paper: #ffffff;
+  --ink: #1a1d2e;
+  --ink-soft: #4a5068;
+  --ink-muted: #7c8299;
+  --brand: #9b1f3a;
+  --brand-dark: #7a1730;
+  --clarin-color: #2563eb;
+  --dariah-color: #e8562a;
+  --shared-color: #6b4c9a;
+  --accent-teal: #2d8a8a;
+  --accent-ochre: #c8873d;
+  --accent-olive: #6b8c3e;
+  --accent-indigo: #3d5a8a;
+  --accent-plum: #7a4870;
+  --border: rgba(26,29,46,0.1);
+  --border-soft: rgba(26,29,46,0.06);
+  --card-bg: #ffffff;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow-sm: 0 1px 3px rgba(26,29,46,0.04), 0 1px 2px rgba(26,29,46,0.03);
+  --shadow-md: 0 4px 20px rgba(26,29,46,0.06), 0 2px 8px rgba(26,29,46,0.04);
+  --shadow-lg: 0 20px 40px rgba(26,29,46,0.08), 0 8px 16px rgba(26,29,46,0.04);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.bg-texture{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 10% 0%,rgba(155,31,58,.04) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 95% 40%,rgba(45,138,138,.03) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 30% 90%,rgba(232,86,42,.03) 0%,transparent 60%)}
+.container{max-width:1200px;margin:0 auto;padding:0 28px;position:relative;z-index:2}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--border);gap:24px}
+.topbar-brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+.topbar-logo{height:44px;width:auto;display:block}
+.topbar-tagline{font-family:'Fraunces',serif;font-size:13px;font-style:italic;color:var(--ink-soft);border-left:1px solid var(--border);padding-left:14px;line-height:1.3}
+.topbar-tagline strong{display:block;font-style:normal;font-weight:500;color:var(--ink);font-size:13px}
+.topbar-nav{display:flex;gap:4px}
+.topbar-nav a{color:var(--ink-soft);text-decoration:none;font-size:13px;font-weight:500;padding:8px 14px;border-radius:8px;transition:all .2s}
+.topbar-nav a:hover{color:var(--brand);background:rgba(155,31,58,.05)}
+
+/* Hero */
+.hero{padding:80px 0 60px}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:var(--brand);margin-bottom:22px;opacity:0;animation:fadeUp .6s .1s forwards}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--brand)}
+.hero h1{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(38px,5vw,60px);line-height:1.04;letter-spacing:-2px;margin-bottom:22px;opacity:0;animation:fadeUp .7s .2s forwards}
+.hero h1 em{font-style:italic;color:var(--brand);font-weight:300}
+.hero-sub{font-size:17px;line-height:1.65;color:var(--ink-soft);max-width:520px;margin-bottom:32px;opacity:0;animation:fadeUp .7s .35s forwards}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:fadeUp .7s .5s forwards}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;transition:all .22s;cursor:pointer;border:none}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 2px 8px rgba(155,31,58,.2)}
+.btn-primary:hover{background:var(--brand-dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(155,31,58,.28)}
+.btn-ghost{background:var(--paper);color:var(--ink);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--bg-alt);border-color:var(--ink-muted);transform:translateY(-1px)}
+
+.hero-visual{opacity:0;animation:fadeUp .8s .4s forwards;position:relative}
+.hero-card{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-md);position:relative}
+.hero-card::before{content:'';position:absolute;top:-1px;left:24px;right:24px;height:3px;background:linear-gradient(90deg,var(--clarin-color),var(--dariah-color));border-radius:3px 3px 0 0}
+.hero-card-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:2px;color:var(--ink-muted);margin-bottom:12px}
+.vlo-search{background:var(--bg-alt);border:1px solid var(--border-soft);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.vlo-search input{background:transparent;border:none;outline:none;color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;flex:1;width:100%}
+.vlo-search input::placeholder{color:var(--ink-muted)}
+.vlo-search svg{color:var(--ink-muted);flex-shrink:0}
+.vlo-results{display:flex;flex-direction:column;gap:8px}
+.vlo-result{border-left:3px solid var(--clarin-color);background:var(--bg-alt);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:10px 14px;transition:all .2s}
+.vlo-result:nth-child(2){border-left-color:var(--dariah-color)}
+.vlo-result:nth-child(3){border-left-color:var(--shared-color)}
+.vlo-result:hover{transform:translateX(3px)}
+.vlo-result-type{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;color:var(--clarin-color)}
+.vlo-result:nth-child(2) .vlo-result-type{color:var(--dariah-color)}
+.vlo-result:nth-child(3) .vlo-result-type{color:var(--shared-color)}
+.vlo-result-title{font-size:13px;font-weight:600;color:var(--ink)}
+.vlo-result-meta{font-size:11px;color:var(--ink-muted);margin-top:2px}
+.hero-dot{position:absolute;border-radius:50%}
+.hero-dot-1{width:110px;height:110px;top:-25px;right:-25px;background:radial-gradient(circle,rgba(232,86,42,.12),transparent 70%)}
+.hero-dot-2{width:80px;height:80px;bottom:-20px;left:-25px;background:radial-gradient(circle,rgba(37,99,235,.12),transparent 70%)}
+
+/* Quick bar */
+.quick-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:26px 28px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-alt);margin:0 -28px}
+.quick-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 17px;border-radius:50px;background:var(--paper);border:1px solid var(--border);color:var(--ink);font-size:12.5px;font-weight:500;text-decoration:none;transition:all .22s;box-shadow:var(--shadow-sm)}
+.quick-chip:hover{transform:translateY(-2px);border-color:transparent;box-shadow:var(--shadow-md)}
+.quick-chip .qc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* Origin badge */
+.origin-badge{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;padding:3px 8px;border-radius:4px;pointer-events:none}
+.origin-clarin{background:rgba(37,99,235,.08);color:var(--clarin-color)}
+.origin-dariah{background:rgba(232,86,42,.08);color:var(--dariah-color)}
+.origin-shared{background:rgba(107,76,154,.08);color:var(--shared-color)}
+.origin-badge svg{width:11px;height:11px;flex-shrink:0}
+
+/* Section */
+.section{padding:72px 0}
+.section-head{max-width:640px;margin-bottom:44px}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2.5px;color:var(--brand);margin-bottom:12px;display:inline-flex;align-items:center;gap:10px}
+.section-label::before{content:'';width:20px;height:1px;background:var(--brand)}
+.section-title{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(28px,3.5vw,40px);letter-spacing:-1px;margin-bottom:14px;line-height:1.1}
+.section-title em{font-style:italic;color:var(--brand);font-weight:300}
+.section-sub{color:var(--ink-soft);font-size:15.5px;line-height:1.6;max-width:580px}
+
+/* Card grid */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px 26px;padding-top:40px;position:relative;transition:all .28s;overflow:hidden;text-decoration:none;display:block;color:inherit;box-shadow:var(--shadow-sm)}
+.card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--accent,var(--brand));transform:scaleY(0);transform-origin:top;transition:transform .3s ease}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent}
+.card:hover::before{transform:scaleY(1)}
+.card-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+.card h3{font-family:'Fraunces',serif;font-weight:500;font-size:18px;margin-bottom:8px;letter-spacing:-.3px;padding-right:80px}
+.card p{font-size:13.5px;line-height:1.6;color:var(--ink-soft)}
+.card-tag{display:inline-block;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;padding:4px 9px;border-radius:4px;background:var(--bg-alt);color:var(--ink-muted);letter-spacing:.3px;text-transform:uppercase}
+
+.card[data-accent="brand"] {--accent:var(--brand)}.card[data-accent="brand"] .card-icon{background:rgba(155,31,58,.08);color:var(--brand)}
+.card[data-accent="clarin"]{--accent:var(--clarin-color)}.card[data-accent="clarin"] .card-icon{background:rgba(37,99,235,.08);color:var(--clarin-color)}
+.card[data-accent="dariah"]{--accent:var(--dariah-color)}.card[data-accent="dariah"] .card-icon{background:rgba(232,86,42,.08);color:var(--dariah-color)}
+.card[data-accent="teal"]{--accent:var(--accent-teal)}.card[data-accent="teal"] .card-icon{background:rgba(45,138,138,.08);color:var(--accent-teal)}
+.card[data-accent="ochre"]{--accent:var(--accent-ochre)}.card[data-accent="ochre"] .card-icon{background:rgba(200,135,61,.08);color:var(--accent-ochre)}
+.card[data-accent="olive"]{--accent:var(--accent-olive)}.card[data-accent="olive"] .card-icon{background:rgba(107,140,62,.08);color:var(--accent-olive)}
+.card[data-accent="indigo"]{--accent:var(--accent-indigo)}.card[data-accent="indigo"] .card-icon{background:rgba(61,90,138,.08);color:var(--accent-indigo)}
+.card[data-accent="plum"]{--accent:var(--accent-plum)}.card[data-accent="plum"] .card-icon{background:rgba(122,72,112,.08);color:var(--accent-plum)}
+.card[data-accent="shared"]{--accent:var(--shared-color)}.card[data-accent="shared"] .card-icon{background:rgba(107,76,154,.08);color:var(--shared-color)}
+
+/* Stats */
+.stats-strip{background:var(--ink);color:var(--bg);border-radius:var(--radius);padding:44px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:30px 0;position:relative;overflow:hidden}
+.stats-strip::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--clarin-color),var(--brand),var(--dariah-color))}
+.stat{text-align:center}
+.stat-num{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(34px,4vw,50px);letter-spacing:-1.5px;line-height:1}
+.stat-num em{font-style:italic;color:var(--accent-ochre);font-weight:300}
+.stat-label{font-size:11px;color:rgba(251,248,243,.6);margin-top:6px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:1.5px}
+
+/* Legend */
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:40px;padding:14px 20px;background:var(--bg-alt);border-radius:var(--radius-sm);border:1px solid var(--border-soft)}
+.legend-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft)}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+
+/* Footer */
+footer{padding:60px 28px 40px;border-top:1px solid var(--border);background:var(--bg-alt);margin:0 -28px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:36px}
+.footer-brand img{height:40px;margin-bottom:14px;display:block}
+.footer-brand p{color:var(--ink-soft);font-size:13px;line-height:1.6;max-width:340px}
+.footer-col h4{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink);margin-bottom:12px}
+.footer-col a{display:block;color:var(--ink-soft);text-decoration:none;font-size:13px;margin-bottom:7px;transition:color .2s}
+.footer-col a:hover{color:var(--brand)}
+.footer-bottom{padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink-muted);flex-wrap:wrap;gap:12px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;transform:translateY(20px);transition:all .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px}.topbar-tagline{display:none}.footer-grid{grid-template-columns:1fr 1fr;gap:28px}}
+@media(max-width:640px){.topbar-nav{display:none}.card-grid{grid-template-columns:1fr}.stats-strip{grid-template-columns:repeat(2,1fr);gap:28px;padding:32px 24px}.footer-grid{grid-template-columns:1fr}.hero{padding:50px 0 40px}.section{padding:50px 0}}
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="container">
+
+  <header class="topbar">
+    <a href="https://www.clariah.es" class="topbar-brand" target="_blank">
+      <img src="clariah-logo.png" alt="CLARIAH-ES" class="topbar-logo">
+      <div class="topbar-tagline"><strong>Portal CLARIN &amp; DARIAH</strong>Recursos para la investigaci&oacute;n</div>
+    </a>
+    <nav class="topbar-nav">
+      <a href="#discover">Descubrir</a>
+      <a href="#tools">Procesar</a>
+      <a href="#deposit">Depositar</a>
+      <a href="#experts">Expertos</a>
+      <a href="#funding">Financiaci&oacute;n</a>
+      <a href="#learn">Formaci&oacute;n</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">CLARIN + DARIAH &middot; Espa&ntilde;a</div>
+        <h1>Todos los recursos para tu <em>investigaci&oacute;n digital</em></h1>
+        <p class="hero-sub">Datos ling&uuml;&iacute;sticos, herramientas de procesamiento, patrimonio cultural digital, formaci&oacute;n, financiaci&oacute;n y asesoramiento experto — las dos grandes infraestructuras europeas de Humanidades y Ciencias Sociales, desde un &uacute;nico punto de acceso coordinado por CLARIAH-ES.</p>
+        <div class="hero-actions">
+          <a href="https://vlo.clarin.eu/" target="_blank" class="btn btn-primary"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10" y1="10" x2="13.5" y2="13.5"/></svg>Buscar en el VLO</a>
+          <a href="https://marketplace.sshopencloud.eu/" target="_blank" class="btn btn-ghost"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="11" height="11" rx="2"/><path d="M6 5v5M4 8h5"/></svg>SSH Open Marketplace</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-dot hero-dot-1"></div>
+        <div class="hero-dot hero-dot-2"></div>
+        <div class="hero-card">
+          <div class="hero-card-label">Busca en CLARIN &amp; DARIAH</div>
+          <div class="vlo-search"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6.5" cy="6.5" r="4.5"/><line x1="10" y1="10" x2="13.5" y2="13.5"/></svg><input type="text" placeholder="debates parlamentarios…" readonly></div>
+          <div class="vlo-results">
+            <div class="vlo-result"><div class="vlo-result-type">Corpus &middot; CLARIN</div><div class="vlo-result-title">ParlaMint: Parliamentary Debates</div><div class="vlo-result-meta">29 pa&iacute;ses &middot; 1B+ palabras &middot; TEI</div></div>
+            <div class="vlo-result"><div class="vlo-result-type">Herramienta &middot; DARIAH</div><div class="vlo-result-title">ELDAH Consent Form Wizard</div><div class="vlo-result-meta">&Eacute;tica &middot; GDPR &middot; Consentimiento</div></div>
+            <div class="vlo-result"><div class="vlo-result-type">Formaci&oacute;n &middot; Compartido</div><div class="vlo-result-title">DH Course Registry</div><div class="vlo-result-meta">Cursos &middot; Escuelas de verano &middot; Europa</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="quick-bar">
+    <a href="https://vlo.clarin.eu/" target="_blank" class="quick-chip"><span class="qc-dot" style="background:var(--clarin-color)"></span>VLO Search</a>
+    <a href="https://marketplace.sshopencloud.eu/" target="_blank" class="quick-chip"><span class="qc-dot" style="background:var(--shared-color)"></span>SSH Marketplace</a>
+    <a href="https://switchboard.clarin.eu/" target="_blank" class="quick-chip"><span class="qc-dot" style="background:var(--clarin-color)"></span>Switchboard</a>
+    <a href="https://campus.dariah.eu/" target="_blank" class="quick-chip"><span class="qc-dot" style="background:var(--dariah-color)"></span>DARIAH Campus</a>
+    <a href="https://www.clarin.eu/k-centres-catalogue" target="_blank" class="quick-chip"><span class="qc-dot" style="background:var(--accent-teal)"></span>K-Centres</a>
+    <a href="https://www.clarin.eu/content/depositing-services" target="_blank" class="quick-chip"><span class="qc-dot" style="background:var(--accent-ochre)"></span>Depositar datos</a>
+    <a href="https://www.clarin.eu/content/learning-hub" target="_blank" class="quick-chip"><span class="qc-dot" style="background:var(--accent-indigo)"></span>Learning Hub</a>
+  </div>
+
+  <div style="padding-top:48px;">
+    <div class="legend fade-in">
+      <div class="legend-item"><span class="legend-dot" style="background:var(--clarin-color)"></span>Recurso CLARIN</div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--dariah-color)"></span>Recurso DARIAH</div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--shared-color)"></span>Compartido CLARIN + DARIAH</div>
+    </div>
+  </div>
+
+  <!-- 1. DESCUBRIR -->
+  <section class="section" id="discover" style="padding-top:24px">
+    <div class="section-head fade-in">
+      <div class="section-label">Descubrir recursos</div>
+      <h2 class="section-title">Encuentra <em>datos, herramientas y m&aacute;s</em></h2>
+      <p class="section-sub">Cat&aacute;logos y buscadores para localizar corpus, l&eacute;xicos, herramientas, publicaciones, flujos de trabajo y materiales formativos en toda Europa.</p>
+    </div>
+    <div class="card-grid">
+      <a href="https://vlo.clarin.eu/" target="_blank" class="card fade-in" data-accent="clarin">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">🔍</div><h3>Virtual Language Observatory</h3>
+        <p>Busca y explora metadatos de cientos de repositorios. Filtra por idioma, tipo de recurso, modalidad, licencia y m&aacute;s. Tu punto de partida para datos ling&uuml;&iacute;sticos.</p><span class="card-tag">descubrimiento</span>
+      </a>
+      <a href="https://marketplace.sshopencloud.eu/" target="_blank" class="card fade-in" data-accent="shared">
+        <span class="origin-badge origin-shared"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="8" cy="12" r="7" opacity=".7"/><circle cx="16" cy="12" r="7" opacity=".7"/></svg>CLARIN+DARIAH</span>
+        <div class="card-icon">🏪</div><h3>SSH Open Marketplace</h3>
+        <p>Portal de descubrimiento de herramientas, servicios, materiales formativos, datasets, publicaciones y workflows para Humanidades y Ciencias Sociales. M&aacute;s de 5.000 recursos.</p><span class="card-tag">5.000+ recursos</span>
+      </a>
+      <a href="https://contentsearch.clarin.eu/" target="_blank" class="card fade-in" data-accent="clarin">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">📑</div><h3>Federated Content Search</h3>
+        <p>Busca patrones espec&iacute;ficos en todas las colecciones de datos alojadas en centros CLARIN — ideal para consultas exploratorias iniciales.</p><span class="card-tag">b&uacute;squeda</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 2. PROCESAR -->
+  <section class="section" id="tools">
+    <div class="section-head fade-in">
+      <div class="section-label">Procesar y analizar</div>
+      <h2 class="section-title">Herramientas para tu <em>flujo de trabajo</em></h2>
+      <p class="section-sub">Desde procesamiento ling&uuml;&iacute;stico autom&aacute;tico hasta ediciones digitales y an&aacute;lisis de texto — herramientas listas para usar.</p>
+    </div>
+    <div class="card-grid">
+      <a href="https://switchboard.clarin.eu/" target="_blank" class="card fade-in" data-accent="clarin">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">⚡</div><h3>Language Resource Switchboard</h3>
+        <p>Sube un archivo o pega una URL — el Switchboard encuentra autom&aacute;ticamente la herramienta CLARIN adecuada para procesar tus datos paso a paso.</p><span class="card-tag">procesamiento</span>
+      </a>
+      <a href="https://www.clarin.eu/parlamint" target="_blank" class="card fade-in" data-accent="clarin">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">🏛️</div><h3>ParlaMint Parliamentary Corpora</h3>
+        <p>Corpus comparables de debates parlamentarios de 29 pa&iacute;ses europeos — m&aacute;s de mil millones de palabras, codificados en TEI con anotaciones UD.</p><span class="card-tag">flagship</span>
+      </a>
+      <a href="https://eldah.hypotheses.org/" target="_blank" class="card fade-in" data-accent="dariah">
+        <span class="origin-badge origin-dariah"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">D</text></svg>DARIAH</span>
+        <div class="card-icon">⚖️</div><h3>ELDAH — &Eacute;tica y Derecho Digital</h3>
+        <p>Grupo de trabajo sobre aspectos legales y &eacute;ticos en Humanidades Digitales: gu&iacute;as GDPR, Consent Form Wizard y recomendaciones de licencias abiertas.</p><span class="card-tag">&eacute;tica &middot; GDPR</span>
+      </a>
+      <a href="https://www.dariah.eu/tools-services/" target="_blank" class="card fade-in" data-accent="dariah">
+        <span class="origin-badge origin-dariah"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">D</text></svg>DARIAH</span>
+        <div class="card-icon">🛠️</div><h3>DARIAH Tools &amp; Services Catalogue</h3>
+        <p>Cat&aacute;logo de herramientas nacionales de DARIAH: ediciones digitales, topic modelling, Voyant Tools, repositorios, hosting y m&aacute;s.</p><span class="card-tag">herramientas</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 3. DEPOSITAR -->
+  <section class="section" id="deposit">
+    <div class="section-head fade-in">
+      <div class="section-label">Depositar y preservar</div>
+      <h2 class="section-title">Almacena tus datos de forma <em>sostenible</em></h2>
+      <p class="section-sub">Repositorios certificados para archivar tus recursos con metadatos, identificadores persistentes y preservaci&oacute;n a largo plazo.</p>
+    </div>
+    <div class="card-grid">
+      <a href="https://www.clarin.eu/content/depositing-services" target="_blank" class="card fade-in" data-accent="clarin">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">📦</div><h3>Depositing Services</h3>
+        <p>Almacena tus corpus, l&eacute;xicos, grabaciones y anotaciones en un repositorio CLARIN B-Centre certificado con soporte de preservaci&oacute;n a largo plazo.</p><span class="card-tag">archivo</span>
+      </a>
+      <a href="https://collections.clarin.eu/" target="_blank" class="card fade-in" data-accent="clarin">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">📂</div><h3>Virtual Collection Registry</h3>
+        <p>Crea y comparte colecciones virtuales de recursos de distintos centros sin necesidad de mover ni copiar datos.</p><span class="card-tag">colecciones</span>
+      </a>
+      <a href="https://www.dariah.eu/activities/open-science/" target="_blank" class="card fade-in" data-accent="dariah">
+        <span class="origin-badge origin-dariah"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">D</text></svg>DARIAH</span>
+        <div class="card-icon">🔓</div><h3>DARIAH Open Science</h3>
+        <p>Directrices y buenas pr&aacute;cticas sobre datos FAIR, ciencia abierta y planes de gesti&oacute;n de datos para Artes y Humanidades.</p><span class="card-tag">FAIR &middot; open science</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 4. EXPERTOS -->
+  <section class="section" id="experts">
+    <div class="section-head fade-in">
+      <div class="section-label">Conocimiento experto</div>
+      <h2 class="section-title">Consulta a los <em>especialistas</em></h2>
+      <p class="section-sub">Centros de conocimiento y grupos de trabajo con asesoramiento gratuito — desde ling&uuml;&iacute;stica computacional hasta patrimonio cultural digital.</p>
+    </div>
+    <div class="card-grid">
+      <a href="https://www.clarin.eu/k-centres-catalogue" target="_blank" class="card fade-in" data-accent="clarin">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">🧭</div><h3>K-Centre Catalogue</h3>
+        <p>Explora y filtra los 50+ Knowledge Centres por idioma, modalidad o servicio. Helpdesk con respuesta en dos d&iacute;as laborables.</p><span class="card-tag">directorio</span>
+      </a>
+      <a href="https://ixa2.si.ehu.eus/clarin-es/" target="_blank" class="card fade-in" data-accent="brand">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">🇪🇸</div><h3>Spanish CLARIN K-Centre</h3>
+        <p>Experiencia en tecnolog&iacute;as del lenguaje para el espa&ntilde;ol y las lenguas co-oficiales, alojado en HiTZ (UPV/EHU). Tu punto de contacto en Espa&ntilde;a.</p><span class="card-tag">CLARIAH-ES</span>
+      </a>
+      <a href="https://www.dariah.eu/activities/working-groups/" target="_blank" class="card fade-in" data-accent="dariah">
+        <span class="origin-badge origin-dariah"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">D</text></svg>DARIAH</span>
+        <div class="card-icon">👥</div><h3>DARIAH Working Groups</h3>
+        <p>Grupos de trabajo tem&aacute;ticos: patrimonio cultural, ling&uuml;&iacute;stica computacional, ediciones digitales, &eacute;tica (ELDAH), geopol&iacute;tica, bibliograf&iacute;a y m&aacute;s.</p><span class="card-tag">comunidades</span>
+      </a>
+      <a href="https://www.clarin.eu/content/overview-clarin-centres" target="_blank" class="card fade-in" data-accent="indigo">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">🏢</div><h3>B-Centres y C-Centres</h3>
+        <p>Red de centros t&eacute;cnicos certificados — la columna vertebral de CLARIN. Repositorios que alojan recursos y ejecutan herramientas de forma sostenible.</p><span class="card-tag">infraestructura</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip fade-in">
+    <div class="stat"><div class="stat-num">29<em>+</em></div><div class="stat-label">Pa&iacute;ses miembros</div></div>
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Nodos CLARIAH-ES</div></div>
+    <div class="stat"><div class="stat-num">50<em>+</em></div><div class="stat-label">K-Centres + WGs</div></div>
+    <div class="stat"><div class="stat-num">5K<em>+</em></div><div class="stat-label">Recursos SSH Marketplace</div></div>
+  </div>
+
+  <!-- 5. FINANCIACIÓN -->
+  <section class="section" id="funding">
+    <div class="section-head fade-in">
+      <div class="section-label">Financiaci&oacute;n y movilidad</div>
+      <h2 class="section-title">Impulsa tu <em>investigaci&oacute;n</em></h2>
+      <p class="section-sub">Becas de movilidad, apoyo para propuestas europeas y financiaci&oacute;n de talleres y escuelas de verano.</p>
+    </div>
+    <div class="card-grid">
+      <a href="https://www.clarin.eu/content/clarin-mobility-grants" target="_blank" class="card fade-in" data-accent="ochre">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">✈️</div><h3>CLARIN Mobility Grants</h3>
+        <p>Hasta 1.200 &euro; para estancias cortas (una semana) entre centros CLARIN de distintos pa&iacute;ses — para investigadores, desarrolladores y educadores.</p><span class="card-tag">hasta 1.200 &euro;</span>
+      </a>
+      <a href="https://www.dariah.eu/activities/open-calls/" target="_blank" class="card fade-in" data-accent="dariah">
+        <span class="origin-badge origin-dariah"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">D</text></svg>DARIAH</span>
+        <div class="card-icon">🎯</div><h3>DARIAH Small Grants &amp; Calls</h3>
+        <p>Financiaci&oacute;n para Working Groups, becas para escuelas de verano, acceso transnacional (TNA) a trav&eacute;s del proyecto ATRIUM y convocatorias abiertas.</p><span class="card-tag">convocatorias</span>
+      </a>
+      <a href="https://www.clarin.eu/funding" target="_blank" class="card fade-in" data-accent="brand">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">💡</div><h3>Apoyo Horizon Europe</h3>
+        <p>Apoyo a miembros que preparan propuestas para Horizon Europe y otros programas de financiaci&oacute;n de la UE sobre temas estrat&eacute;gicos para CLARIN.</p><span class="card-tag">proyectos UE</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 6. FORMACIÓN -->
+  <section class="section" id="learn">
+    <div class="section-head fade-in">
+      <div class="section-label">Aprende y ense&ntilde;a</div>
+      <h2 class="section-title">Desarrolla tus <em>competencias digitales</em></h2>
+      <p class="section-sub">Tutoriales, cursos universitarios, escuelas de verano y una revista cient&iacute;fica dedicada a las Humanidades Digitales.</p>
+    </div>
+    <div class="card-grid">
+      <a href="https://campus.dariah.eu/" target="_blank" class="card fade-in" data-accent="dariah">
+        <span class="origin-badge origin-dariah"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">D</text></svg>DARIAH</span>
+        <div class="card-icon">🎓</div><h3>DARIAH Campus</h3>
+        <p>Plataforma de recursos formativos abiertos: tutoriales sobre m&eacute;todos digitales, gesti&oacute;n de datos, GDPR, ediciones digitales, an&aacute;lisis de texto y patrimonio cultural.</p><span class="card-tag">tutoriales</span>
+      </a>
+      <a href="https://www.clarin.eu/content/learning-hub" target="_blank" class="card fade-in" data-accent="clarin">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">📚</div><h3>CLARIN Learning Hub</h3>
+        <p>M&oacute;dulos formativos, materiales de cursos y cat&aacute;logo de recursos educativos abiertos de la comunidad CLARIN para docencia y autoestudio.</p><span class="card-tag">materiales</span>
+      </a>
+      <a href="https://registries.clarin-dariah.eu/courses/" target="_blank" class="card fade-in" data-accent="shared">
+        <span class="origin-badge origin-shared"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="8" cy="12" r="7" opacity=".7"/><circle cx="16" cy="12" r="7" opacity=".7"/></svg>CLARIN+DARIAH</span>
+        <div class="card-icon">🌐</div><h3>DH Course Registry</h3>
+        <p>Encuentra cursos universitarios y escuelas de verano en Humanidades Digitales en toda Europa — una iniciativa conjunta.</p><span class="card-tag">cursos</span>
+      </a>
+      <a href="https://www.dariah.eu/activities/publications/" target="_blank" class="card fade-in" data-accent="dariah">
+        <span class="origin-badge origin-dariah"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">D</text></svg>DARIAH</span>
+        <div class="card-icon">📰</div><h3>Transformations: A DARIAH Journal</h3>
+        <p>Revista cient&iacute;fica multiling&uuml;e de DARIAH ERIC (2024–), dedicada a m&eacute;todos digitales reproducibles en Humanidades y Ciencias Sociales.</p><span class="card-tag">publicaciones</span>
+      </a>
+      <a href="https://www.clarin.eu/content/clarin-identity-provider" target="_blank" class="card fade-in" data-accent="teal">
+        <span class="origin-badge origin-clarin"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="#fff" font-family="Inter,sans-serif">C</text></svg>CLARIN</span>
+        <div class="card-icon">🔑</div><h3>Federated Login &amp; Access</h3>
+        <p>Acceso &uacute;nico con credenciales acad&eacute;micas a recursos protegidos de CLARIN. &iquest;Sin cuenta acad&eacute;mica? Reg&iacute;strate gratis.</p><span class="card-tag">autenticaci&oacute;n</span>
+      </a>
+      <a href="https://www.clariah.es/en/training" target="_blank" class="card fade-in" data-accent="brand">
+        <span class="origin-badge origin-shared"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="8" cy="12" r="7" opacity=".7"/><circle cx="16" cy="12" r="7" opacity=".7"/></svg>CLARIN+DARIAH</span>
+        <div class="card-icon">🇪🇸</div><h3>Formaci&oacute;n CLARIAH-ES</h3>
+        <p>Talleres, eventos y actividades formativas organizados por los nodos espa&ntilde;oles del consorcio CLARIAH-ES a nivel nacional.</p><span class="card-tag">Espa&ntilde;a</span>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="clariah-logo.png" alt="CLARIAH-ES">
+        <p>Infraestructura distribuida de investigaci&oacute;n digital que coordina la participaci&oacute;n de Espa&ntilde;a en los consorcios europeos CLARIN y DARIAH.</p>
+      </div>
+      <div class="footer-col"><h4>CLARIN</h4>
+        <a href="https://www.clarin.eu" target="_blank">clarin.eu</a>
+        <a href="https://vlo.clarin.eu" target="_blank">VLO</a>
+        <a href="https://switchboard.clarin.eu" target="_blank">Switchboard</a>
+        <a href="https://www.clarin.eu/k-centres-catalogue" target="_blank">K-Centres</a>
+      </div>
+      <div class="footer-col"><h4>DARIAH</h4>
+        <a href="https://www.dariah.eu" target="_blank">dariah.eu</a>
+        <a href="https://campus.dariah.eu" target="_blank">DARIAH Campus</a>
+        <a href="https://marketplace.sshopencloud.eu" target="_blank">SSH Marketplace</a>
+        <a href="https://www.dariah.eu/activities/working-groups/" target="_blank">Working Groups</a>
+      </div>
+      <div class="footer-col"><h4>CLARIAH-ES</h4>
+        <a href="https://www.clariah.es" target="_blank">clariah.es</a>
+        <a href="https://www.clariah.es/en/miembros" target="_blank">Nodos</a>
+        <a href="https://www.clariah.es/en/training" target="_blank">Formaci&oacute;n</a>
+        <a href="mailto:info@clariah.es">info@clariah.es</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>Portal comunitario no oficial — Todos los enlaces apuntan a recursos oficiales de CLARIN ERIC, DARIAH ERIC y CLARIAH-ES.</div>
+      <div>&copy; 2026 CLARIAH-ES</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const observer=new IntersectionObserver(e=>{e.forEach((e,i)=>{e.isIntersecting&&(setTimeout(()=>e.target.classList.add('visible'),i*50),observer.unobserve(e.target))})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.fade-in').forEach(e=>observer.observe(e));
+const input=document.querySelector('.vlo-search input'),terms=['debates parlamentarios','ediciones digitales','patrimonio cultural','corpus lengua de signos','learner corpus español','text mining'];
+let termIdx=0,charIdx=0,deleting=false;
+function typeLoop(){const t=terms[termIdx];if(!deleting){input.value=t.substring(0,++charIdx);if(charIdx===t.length){deleting=true;setTimeout(typeLoop,2200);return}setTimeout(typeLoop,55+Math.random()*40)}else{input.value=t.substring(0,--charIdx);if(charIdx===0){deleting=false;termIdx=(termIdx+1)%terms.length;setTimeout(typeLoop,400);return}setTimeout(typeLoop,25)}}
+setTimeout(typeLoop,1400);
+</script>
+</body>
+</html>
